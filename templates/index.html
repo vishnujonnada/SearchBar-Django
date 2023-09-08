@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Bar</title>
+    <style>
+        /* Style for the table */
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        /* Style for the form and heading */
+        form {
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        /* Style for the "Not Found" message */
+        .not-found {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <form action="/" method="POST">
+        {% csrf_token %}
+        <label for="query">Search here:</label>
+        <input type="text" name="query" id="query" placeholder="enter first name or last name">
+        <input type="submit" value="Submit">
+    </form>
+
+    {% if user_data %}
+        <h2>Search Results:</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Sex</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in user_data %}
+                    <tr>
+                        <td>{{ user.0 }}</td>
+                        <td>{{ user.1 }}</td>
+                        <td>{{ user.2 }}</td>
+                        <td>{{ user.3 }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p class="not-found">User Details Not Found</p>
+    {% endif %}
+</body>
+</html>
